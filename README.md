@@ -63,9 +63,13 @@ Not implemented: login/authentication and a separate department-management scree
 | Tool | Version | Check with |
 |------|---------|------------|
 | JDK | 17 or newer | `java -version` |
-| Maven | 3.9 or newer | `mvn -v` |
+| Maven | 3.9 or newer (or use the included wrapper — no install needed) | `mvn -v` / `./mvnw -v` |
 | Node.js | 18 or newer (20+ recommended) | `node -v` |
 | PostgreSQL | 14 or newer, **or** Docker with Compose | `psql --version` / `docker compose version` |
+
+> **Maven Wrapper included.** `backend/mvnw` (macOS/Linux) and `backend/mvnw.cmd` (Windows) are
+> committed to the repository. If Maven is not installed globally, use them instead of `mvn` — they
+> download the correct Maven version automatically on first use.
 
 Ports used: **5432** (PostgreSQL), **8080** (backend API), **5173** (frontend).
 
@@ -98,8 +102,13 @@ the backend starts.
 ### 2. Start the backend
 
 ```bash
+# macOS / Linux
 cd backend
-mvn spring-boot:run
+./mvnw spring-boot:run
+
+# Windows
+cd backend
+mvnw.cmd spring-boot:run
 ```
 
 On first start Flyway creates the `employees` table and loads 15 sample employees. The API is then
@@ -175,8 +184,21 @@ same defaults as above.
 ### Backend
 
 ```bash
+# macOS / Linux
 cd backend
-mvn test
+./mvnw test
+
+# Windows
+cd backend
+mvnw.cmd test
+```
+
+Expected output (no database required — all tests use Mockito / MockMvc):
+
+```
+Tests run: 36, Failures: 0, Errors: 0, Skipped: 0
+
+BUILD SUCCESS
 ```
 
 The backend tests do not need a database:
