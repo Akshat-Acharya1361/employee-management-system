@@ -4,6 +4,7 @@ Add screenshots of the running application here (PNG), then reference them from 
 
 Suggested set:
 
+0. `00-login.png` — login page (optionally also the "Invalid username or password" message)
 1. `01-employee-list.png` — list page with sample data
 2. `02-search-filter-sort.png` — search text + department + status filter + a sorted column
 3. `03-pagination.png` — page 2

@@ -43,6 +43,8 @@ export function EmployeeListPage() {
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [exporting, setExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
 
   const updateQuery = useCallback(
     (changes: Partial<EmployeeListQuery>) => {
@@ -127,6 +129,26 @@ export function EmployeeListPage() {
     }
   };
 
+  const exportCsv = async () => {
+    setExporting(true);
+    setExportError(null);
+    try {
+      const csvFile = await employeeApi.exportCsv(query);
+      const downloadUrl = URL.createObjectURL(csvFile);
+      const downloadLink = document.createElement('a');
+      downloadLink.href = downloadUrl;
+      downloadLink.download = 'employees.csv';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      downloadLink.remove();
+      URL.revokeObjectURL(downloadUrl);
+    } catch (error) {
+      setExportError(error instanceof Error ? error.message : 'Could not export employees');
+    } finally {
+      setExporting(false);
+    }
+  };
+
   const hasActiveFilters = Boolean(query.search || query.department || query.status);
   const departmentOptions =
     query.department && !departments.includes(query.department) ? [...departments, query.department] : departments;
@@ -139,9 +161,9 @@ export function EmployeeListPage() {
           <p className="page-header__subtitle">Search, filter and manage employee records.</p>
         </div>
         <div className="page-header__actions">
-          <a className="button button--secondary" href={employeeApi.exportUrl(query)} download>
-            Export CSV
-          </a>
+          <button type="button" className="button button--secondary" onClick={exportCsv} disabled={exporting}>
+            {exporting ? 'Exporting…' : 'Export CSV'}
+          </button>
           <Link to="/employees/new" className="button button--primary">Add employee</Link>
         </div>
       </div>
@@ -152,6 +174,8 @@ export function EmployeeListPage() {
           <button type="button" className="notice__dismiss" onClick={() => setNotice(null)} aria-label="Dismiss message">×</button>
         </div>
       )}
+
+      {exportError && <p className="form-error" role="alert">{exportError}</p>}
 
       <form className="filters" role="search" onSubmit={(event) => event.preventDefault()}>
         <div className="field filters__search">

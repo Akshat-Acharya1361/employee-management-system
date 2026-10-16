@@ -1,6 +1,7 @@
 package com.kloudspot.ems.employee;
 
 import com.kloudspot.ems.common.error.DuplicateResourceException;
+import com.kloudspot.ems.config.SecurityConfig;
 import com.kloudspot.ems.common.error.ResourceNotFoundException;
 import com.kloudspot.ems.employee.dto.EmployeeRequest;
 import com.kloudspot.ems.employee.dto.EmployeeResponse;
@@ -11,8 +12,10 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -34,8 +37,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * Checks the HTTP contract (status codes, validation and error JSON) with the service mocked.
+ * Runs as a signed-in user; authentication itself is covered by AuthSecurityTest.
  */
 @WebMvcTest(EmployeeController.class)
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = "ADMIN")
 class EmployeeControllerTest {
 
     private static final String VALID_EMPLOYEE_JSON = """

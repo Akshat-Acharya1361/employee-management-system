@@ -1,10 +1,40 @@
 {
   "info": {
     "name": "Employee Management API",
-    "description": "Run in order (Collection Runner works). Start the backend first; see README.",
+    "description": "Run in order (Collection Runner works). Start the backend first; see README. Uses HTTP Basic auth from the username/password collection variables (local defaults admin / admin123).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
+    {
+      "name": "0. Check credentials",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/me",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "me"
+          ]
+        },
+        "description": "200 with the username when the collection credentials are valid."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('200 OK', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
     {
       "name": "1. Create employee",
       "request": {
@@ -398,6 +428,38 @@
           }
         }
       ]
+    },
+    {
+      "name": "13. List without credentials \u2192 401",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/employees",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "employees"
+          ]
+        },
+        "description": "Overrides the collection auth to show the JSON 401 response."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('401 Unauthorized', () => pm.response.to.have.status(401));"
+            ]
+          }
+        }
+      ]
     }
   ],
   "variable": [
@@ -408,6 +470,29 @@
     {
       "key": "employeeId",
       "value": "1"
+    },
+    {
+      "key": "username",
+      "value": "admin"
+    },
+    {
+      "key": "password",
+      "value": "admin123"
     }
-  ]
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{username}}",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "{{password}}",
+        "type": "string"
+      }
+    ]
+  }
 }
