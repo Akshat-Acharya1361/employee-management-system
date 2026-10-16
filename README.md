@@ -507,16 +507,23 @@ tokens or a server session with an `HttpOnly` cookie.
 
 ## Screenshots / demo
 
-Screenshots of the running application go in [`docs/screenshots`](docs/screenshots) (a checklist of
-suggested shots is in that folder). To capture them:
+| | |
+|---|---|
+| **Login** (wrong password) | **Employee list** |
+| ![Login](docs/screenshots/00-login.png) | ![Employee list](docs/screenshots/01-employee-list.png) |
+| **Search + department + status filter, sorted by salary** | **Pagination (page 2)** |
+| ![Search, filter and sort](docs/screenshots/02-search-filter-sort.png) | ![Pagination](docs/screenshots/03-pagination.png) |
+| **Validation errors** | **Duplicate email (different capitalisation)** |
+| ![Validation](docs/screenshots/04-add-validation.png) | ![Duplicate email](docs/screenshots/05-duplicate-email.png) |
+| **Employee details** | **Edit (Employee ID is read-only)** |
+| ![Details](docs/screenshots/06-employee-details.png) | ![Edit](docs/screenshots/07-edit-employee.png) |
+| **Delete confirmation** | **Phone layout** |
+| ![Delete confirmation](docs/screenshots/08-delete-confirmation.png) | ![Mobile](docs/screenshots/09-mobile-list.png) |
+| **Swagger UI** | |
+| ![Swagger UI](docs/screenshots/10-swagger-ui.png) | |
 
-1. Start the database, backend and frontend as in [Quick start](#quick-start).
-2. Capture: the login page (and the wrong-password message); the employee list; the list with a search, department and status filter and a sorted column;
-   page 2; the Add form showing validation errors; the duplicate-email error; the details page; the edit
-   form; the delete confirmation dialog; the list on a phone-sized window (browser dev tools → device
-   toolbar); and Swagger UI at <http://localhost:8080/swagger-ui.html>.
-3. Optionally record a 1–2 minute screen capture walking through create → search/filter/page → view → edit
-   → delete.
+To recapture them, start the database, backend and frontend as in [Quick start](#quick-start) and follow
+the checklist in [`docs/screenshots/README.md`](docs/screenshots/README.md).
 
 ---
 
